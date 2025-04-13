@@ -17,7 +17,7 @@ function GameBoard() {
    * @returns
    */
   const markBoard = (playerVal, row, col) => {
-    if (board[row][col].getValue() === "0") {
+    if (!board[row][col].getValue()) {
       //change
       board[row][col].markCell(playerVal);
       return true;
@@ -45,7 +45,7 @@ function GameBoard() {
 }
 
 function Cell() {
-  let value = "0";
+  let value = "";
   const markCell = (playerVal) => {
     value = playerVal;
   };
@@ -74,6 +74,8 @@ function GameController() {
   };
 
   const getCurrPlayer = () => currPlayer;
+
+  const getWinner = () => winner;
 
   const checkWinner = (row, col) => {
     const boardArr = board.getBoard();
@@ -168,18 +170,63 @@ function GameController() {
     playRound,
     getBoard: board.getBoard,
     getCurrPlayer,
+    getWinner,
   };
 }
 
-function ScreenController() {}
+/*
+  make gui board [X]
+  make event listener [X]
 
-const b = GameController();
-b.playRound(0, 0);
-b.playRound(1, 0);
-b.playRound(2, 0);
-b.playRound(0, 2);
-b.playRound(1, 2);
-b.playRound(2, 2);
-b.playRound(0, 1);
-b.playRound(1, 1);
-b.playRound(2, 1);
+  todo
+  - new game
+  - allow custom player name
+  - start/restart button
+  - 
+*/
+function ScreenController() {
+  const game = GameController();
+  const playerTurnDiv = document.getElementById("player-turn");
+  const boardDiv = document.getElementById("board-container");
+
+  const updateScreen = () => {
+    boardDiv.textContent = "";
+
+    const board = game.getBoard();
+    const currPlayer = game.getCurrPlayer();
+    const winner = game.getWinner();
+
+    if (winner === "draw") {
+      playerTurnDiv.textContent = "Game Tied";
+    } else if (winner) {
+      playerTurnDiv.textContent = `${winner} won`;
+    } else {
+      playerTurnDiv.textContent = `${currPlayer.name}'s turn`;
+    }
+
+    if (game)
+      board.map((row, rowIndex) =>
+        row.map((cell, colIndex) => {
+          const cellBtn = document.createElement("button");
+          cellBtn.classList.add("cell");
+          cellBtn.dataset.col = colIndex;
+          cellBtn.dataset.row = rowIndex;
+          cellBtn.textContent = cell.getValue();
+          boardDiv.appendChild(cellBtn);
+        })
+      );
+  };
+
+  function handleClick(e) {
+    const data = e.target.dataset;
+    game.playRound(data.row, data.col);
+    updateScreen();
+  }
+
+  boardDiv.addEventListener("click", handleClick);
+
+  // init render
+  updateScreen();
+}
+
+ScreenController();

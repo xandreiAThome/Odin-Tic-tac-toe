@@ -1,4 +1,52 @@
 html,
 body {
   margin: 0;
+  height: 100%;
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  background-image: url(https://images.unsplash.com/photo-1711062717319-393e424a3538?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2hhbGtib2FyZCUyMHRleHR1cmV8ZW58MHx8MHx8fDA%3D);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.main-container {
+  color: white;
+  height: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#board-container {
+  display: grid;
+
+  grid-template-columns: repeat(3, 6rem);
+}
+
+.cell {
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  height: 6rem;
+  border: 2px solid rgb(222, 222, 222);
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 3rem;
+}
+
+.cell:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#title {
+  position: absolute;
+  text-align: center;
+  top: 1rem;
+  font-size: 3rem;
 }
