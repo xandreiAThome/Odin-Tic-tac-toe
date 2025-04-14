@@ -78,7 +78,11 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
   const getWinner = () => winner;
 
   const checkWinner = (row, col) => {
+    row = Number(row);
+    col = Number(col);
+    // console.log("dnuwaefbuifaebyhi");
     const boardArr = board.getBoard();
+
     // check col
     for (let i = 0; i < board.getRow(); i++) {
       if (boardArr[i][col].getValue() !== currPlayer.value) {
@@ -113,7 +117,9 @@ function GameController(player1 = "Player 1", player2 = "Player 2") {
     }
 
     // check anti-diagonal
+
     if (row + col === board.getRow() - 1) {
+      console.log("aiufg");
       for (let i = 0; i < board.getRow(); i++) {
         if (
           boardArr[i][board.getRow() - 1 - i].getValue() !== currPlayer.value
