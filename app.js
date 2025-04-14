@@ -58,10 +58,10 @@ function Cell() {
   };
 }
 
-function GameController() {
+function GameController(player1 = "Player 1", player2 = "Player 2") {
   const players = [
-    { name: "Player 1", value: "X" },
-    { name: "Player 2", value: "O" },
+    { name: player1, value: "X" },
+    { name: player2, value: "O" },
   ];
   const board = GameBoard();
 
@@ -179,15 +179,19 @@ function GameController() {
   make event listener [X]
 
   todo
-  - new game
-  - allow custom player name
-  - start/restart button
+  - new game [X]
+  - allow custom player name [X]
+  - start/restart button [X]
   - 
 */
 function ScreenController() {
-  const game = GameController();
+  let game = GameController();
   const playerTurnDiv = document.getElementById("player-turn");
   const boardDiv = document.getElementById("board-container");
+  const gameBtn = document.getElementById("game-btn");
+  const player1NameDiv = document.getElementById("player-1");
+  const player2NameDiv = document.getElementById("player-2");
+  let start = false;
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -196,7 +200,15 @@ function ScreenController() {
     const currPlayer = game.getCurrPlayer();
     const winner = game.getWinner();
 
-    if (winner === "draw") {
+    if (!start) {
+      gameBtn.textContent = "Start Game";
+    } else {
+      gameBtn.textContent = "New Game";
+    }
+
+    if (!start) {
+      playerTurnDiv.textContent = "Optional: Input Player Name";
+    } else if (winner === "draw") {
       playerTurnDiv.textContent = "Game Tied";
     } else if (winner) {
       playerTurnDiv.textContent = `${winner} won`;
@@ -204,10 +216,17 @@ function ScreenController() {
       playerTurnDiv.textContent = `${currPlayer.name}'s turn`;
     }
 
+    if (winner) {
+      start = false;
+    }
+
     if (game)
       board.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
           const cellBtn = document.createElement("button");
+          if (rowIndex === 0) cellBtn.classList.add("cell-border-top");
+          if (colIndex === 0) cellBtn.classList.add("cell-border-left");
+          cellBtn.classList.add("cell-border");
           cellBtn.classList.add("cell");
           cellBtn.dataset.col = colIndex;
           cellBtn.dataset.row = rowIndex;
@@ -218,12 +237,23 @@ function ScreenController() {
   };
 
   function handleClick(e) {
-    const data = e.target.dataset;
-    game.playRound(data.row, data.col);
-    updateScreen();
+    if (start) {
+      const data = e.target.dataset;
+      game.playRound(data.row, data.col);
+      updateScreen();
+    }
   }
 
   boardDiv.addEventListener("click", handleClick);
+
+  gameBtn.addEventListener("click", (e) => {
+    start = true;
+    game = GameController(
+      player1NameDiv.value ? player1NameDiv.value : "Player 1",
+      player2NameDiv.value ? player2NameDiv.value : "Player 2"
+    );
+    updateScreen();
+  });
 
   // init render
   updateScreen();

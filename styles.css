@@ -26,12 +26,25 @@ body {
   grid-template-columns: repeat(3, 6rem);
 }
 
+.cell-border-top {
+  border-top: 4px solid rgb(222, 222, 222);
+}
+
+.cell-border-left {
+  border-left: 4px solid rgb(222, 222, 222);
+}
+
+button {
+  border: none;
+}
+
 .cell {
   font-family: "Fredericka the Great", serif;
   font-weight: 400;
   font-style: normal;
   height: 6rem;
-  border: 2px solid rgb(222, 222, 222);
+  border-bottom: 4px solid rgb(222, 222, 222);
+  border-right: 4px solid rgb(222, 222, 222);
   background-color: rgba(0, 0, 0, 0);
   display: flex;
   justify-content: center;
@@ -42,6 +55,7 @@ body {
 
 .cell:hover {
   background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 #title {
@@ -49,4 +63,44 @@ body {
   text-align: center;
   top: 1rem;
   font-size: 3rem;
+}
+
+.player-name {
+  background-color: rgba(0, 0, 0, 0);
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  border: 2px solid white;
+  padding: 0.2rem;
+  outline: none;
+  transition: border 0.2s;
+  display: block;
+}
+
+.player-name:focus {
+  border: 2px solid lightgreen;
+}
+
+#game-btn {
+  background-color: rgba(0, 0, 0, 0);
+  font-family: "Fredericka the Great", serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+  font-size: 1.5rem;
+  border: 2px solid white;
+  margin-top: 4rem;
+  transition: transform 0.1s;
+}
+
+#game-btn:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#game-btn:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
